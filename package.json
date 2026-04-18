@@ -1,0 +1,51 @@
+{
+  "name": "conquista-loot-tracker",
+  "version": "1.0.0",
+  "description": "Conquista Online — Loot & Craft Tracker",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win",
+    "build:dir": "electron-builder --win --dir"
+  },
+  "build": {
+    "appId": "com.conquista.loottracker",
+    "productName": "Conquista Loot Tracker",
+    "copyright": "Copyright © 2026",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "app.js",
+      "data.js",
+      "styles.css"
+    ],
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Conquista Loot Tracker"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "TU_USUARIO_GITHUB",
+      "repo": "TU_REPOSITORIO"
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.9"
+  }
+}

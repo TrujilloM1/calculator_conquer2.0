@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conquista Online — Loot &amp; Craft Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <!-- Background dragon watermark -->
+    <div class="bg-dragon" aria-hidden="true">🐉</div>
+
+    <div class="app-container">
+
+        <!-- ══ Header ══════════════════════════════════════════════════════ -->
+        <header class="app-header">
+            <span class="header-ornament" aria-hidden="true">✦</span>
+            <div class="header-center">
+                <h1 class="app-title">LEYENDA CONQUISTA</h1>
+                <p class="app-subtitle">✦ LOOT CALCULATOR &amp; CRAFT GUIDE ✦</p>
+            </div>
+            <span class="header-ornament" aria-hidden="true">✦</span>
+        </header>
+
+        <!-- ══ Tab Navigation ══════════════════════════════════════════════ -->
+        <nav class="tab-nav" role="tablist" aria-label="Secciones">
+            <button class="tab-btn active" data-tab="loot"    role="tab" aria-selected="true"  aria-controls="tab-loot">
+                <span class="tab-icon" aria-hidden="true">✕</span> REGISTRO DE LOOT
+            </button>
+            <button class="tab-btn"        data-tab="craft"   role="tab" aria-selected="false" aria-controls="tab-craft">
+                <span class="tab-icon" aria-hidden="true">🔨</span> CALCULADORA CRAFT
+            </button>
+            <button class="tab-btn"        data-tab="history" role="tab" aria-selected="false" aria-controls="tab-history">
+                <span class="tab-icon" aria-hidden="true">📜</span> HISTORIAL
+            </button>
+            <button class="tab-btn"        data-tab="almacen" role="tab" aria-selected="false" aria-controls="tab-almacen">
+                <span class="tab-icon" aria-hidden="true">🏛</span> ALMACÉN
+            </button>
+            <button class="tab-btn"        data-tab="set"     role="tab" aria-selected="false" aria-controls="tab-set">
+                <span class="tab-icon" aria-hidden="true">⚔</span> PERSONAJE
+            </button>
+        </nav>
+
+        <!-- ══ Main Content ════════════════════════════════════════════════ -->
+        <main class="tab-content">
+
+            <!-- ─── LOOT TAB ──────────────────────────────────────────── -->
+            <section id="tab-loot" class="tab-panel active" role="tabpanel" aria-labelledby="tab-loot-btn">
+
+                <div class="section-header">
+                    <span class="ornament" aria-hidden="true">✦</span>
+                    <h2>Items Recolectados</h2>
+                </div>
+
+                <!-- Items table -->
+                <div class="items-list-wrapper">
+                    <div class="items-cols-header" aria-hidden="true">
+                        <span>NOMBRE</span>
+                        <span>CANTIDAD</span>
+                        <span>PRECIO/U</span>
+                        <span>SUBTOTAL</span>
+                        <span></span>
+                    </div>
+                    <div id="items-list" role="list"></div>
+                </div>
+
+                <button class="btn-add-item" id="btn-add-item" type="button">+ Agregar Item</button>
+
+                <div class="section-divider" aria-hidden="true">· · ·</div>
+
+                <!-- Session metadata -->
+                <div class="extra-fields">
+                    <div class="field-group">
+                        <label for="loose-cps">CPS SUELTAS</label>
+                        <input type="number" id="loose-cps" placeholder="0" min="0" step="1">
+                    </div>
+                    <div class="field-group">
+                        <label for="session-time">TIEMPO (MINUTOS)</label>
+                        <input type="number" id="session-time" placeholder="60" min="1" step="1">
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="btn-calculate" type="button">⚡ CALCULAR TOTAL</button>
+
+                <!-- Results -->
+                <div id="results-panel" class="results-panel" hidden>
+                    <div class="result-row">
+                        <span class="result-label">Total Items:</span>
+                        <span class="result-value" id="res-items-total">0 CPS</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">CPS Sueltas:</span>
+                        <span class="result-value" id="res-loose-cps">0 CPS</span>
+                    </div>
+                    <div class="result-row result-total">
+                        <span class="result-label">TOTAL GENERAL:</span>
+                        <span class="result-value" id="res-grand-total">0 CPS</span>
+                    </div>
+                    <div class="result-row result-cps-hour">
+                        <span class="result-label">CPS / HORA:</span>
+                        <span class="result-value" id="res-cps-hour">— CPS/h</span>
+                    </div>
+                </div>
+
+                <button class="btn-secondary" id="btn-save" type="button">💾 GUARDAR SESIÓN</button>
+
+            </section>
+
+            <!-- ─── CRAFT TAB ─────────────────────────────────────────── -->
+            <section id="tab-craft" class="tab-panel" role="tabpanel" aria-labelledby="tab-craft-btn">
+
+                <div class="section-header">
+                    <span class="ornament" aria-hidden="true">✦</span>
+                    <h2>Calculadora de Crafting</h2>
+                </div>
+
+                <div class="craft-formula-box">
+                    <p>Para crear un item <strong>+N</strong> se necesitan <strong>3</strong> items <strong>+(N-1)</strong></p>
+                    <p class="formula-text">Items +1 requeridos = 3<sup>(N−1)</sup></p>
+                </div>
+
+                <div class="craft-controls">
+                    <div class="field-group">
+                        <label for="craft-price">PRECIO DEL ITEM +1 (CPS)</label>
+                        <input type="number" id="craft-price" placeholder="25000" min="0" step="1" value="25000">
+                    </div>
+                    <div class="field-group">
+                        <label for="craft-level-select">NIVEL A CRAFTEAR</label>
+                        <select id="craft-level-select">
+                            <option value="2">+2</option>
+                            <option value="3">+3</option>
+                            <option value="4">+4</option>
+                            <option value="5">+5</option>
+                            <option value="6">+6</option>
+                            <option value="7">+7</option>
+                            <option value="8" selected>+8</option>
+                            <option value="9">+9</option>
+                            <option value="10">+10</option>
+                            <option value="11">+11</option>
+                            <option value="12">+12</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="craft-table-wrapper">
+                    <table class="craft-table" id="craft-table">
+                        <thead>
+                            <tr>
+                                <th>NIVEL</th>
+                                <th>ITEMS +1 NECESARIOS</th>
+                                <th>COMPOSE NECESARIO</th>
+                                <th>COSTO TOTAL (CPS)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="craft-tbody"></tbody>
+                    </table>
+                </div>
+
+                <div class="craft-result-card" id="craft-result">
+                    <div class="craft-result-header">
+                        Resultado para <span id="craft-res-level">+8</span>
+                    </div>
+                    <div class="craft-result-body">
+                        <div class="craft-res-stat">
+                            <span>Items +1 necesarios:</span>
+                            <strong id="craft-res-items">2,187</strong>
+                        </div>
+                        <div class="craft-res-stat craft-res-cost">
+                            <span>Costo total:</span>
+                            <strong id="craft-res-cost">54,675,000 CPS</strong>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ─── HISTORY TAB ───────────────────────────────────────── -->
+            <section id="tab-history" class="tab-panel" role="tabpanel" aria-labelledby="tab-history-btn">
+
+                <div class="section-header">
+                    <span class="ornament" aria-hidden="true">✦</span>
+                    <h2>Historial de Sesiones</h2>
+                </div>
+
+                <div id="history-list" role="list"></div>
+
+                <div id="history-empty" class="history-empty">
+                    <div class="history-empty-icon" aria-hidden="true">📜</div>
+                    <p>No hay sesiones guardadas aún.</p>
+                    <p class="history-hint">Registra tu primera sesión de loot para comenzar.</p>
+                </div>
+
+            </section>
+
+            <!-- ─── SET PERSONAJE TAB ────────────────────────────────── -->
+            <section id="tab-set" class="tab-panel" role="tabpanel" aria-labelledby="tab-set-btn">
+
+                <div class="section-header">
+                    <span class="ornament" aria-hidden="true">✦</span>
+                    <h2>Set de Personaje</h2>
+                </div>
+
+                <!-- Global DBS price used for Socket 1 calculations -->
+                <div class="set-global">
+                    <span class="set-global-label">Precio DBS:</span>
+                    <input type="number" id="set-dbs-price" class="set-dbs-input" value="25000" min="0" step="1">
+                    <span class="set-cost-dim">CPS &nbsp;—&nbsp; usado para cálculo de Socket 1</span>
+                </div>
+
+                <!-- USD conversion rate -->
+                <div class="set-global set-global-usd">
+                    <span class="set-global-label">1,000,000 CPS =</span>
+                    <input type="number" id="set-usd-rate" class="set-dbs-input set-usd-input" value="8" min="0.01" step="0.01">
+                    <span class="set-cost-dim">USD &nbsp;—&nbsp; tasa de conversión (modificable)</span>
+                </div>
+
+                <!-- Slot cards generated by JS -->
+                <div id="set-slots-container" class="set-slots-grid"></div>
+
+                <button class="btn-primary" id="btn-set-calculate" type="button">⚡ CALCULAR SET</button>
+
+                <div id="set-results" class="set-results" hidden></div>
+
+            </section>
+
+            <!-- ─── ALMACÉN TAB ──────────────────────────────────────── -->
+            <section id="tab-almacen" class="tab-panel" role="tabpanel" aria-labelledby="tab-almacen-btn">
+
+                <!-- ── Sección 1: Items con nivel ─────────────────── -->
+                <div class="section-header">
+                    <span class="ornament" aria-hidden="true">✦</span>
+                    <h2>Items con Nivel</h2>
+                </div>
+
+                <div class="alm-table-wrapper">
+                    <div class="alm-cols-leveled" aria-hidden="true">
+                        <span>NOMBRE</span>
+                        <span>NIV</span>
+                        <span>CANT</span>
+                        <span>PRECIO/U</span>
+                        <span>EQUIV +1</span>
+                        <span>SUBTOTAL</span>
+                        <span></span>
+                    </div>
+                    <div id="alm-leveled-list" role="list"></div>
+                </div>
+
+                <button class="btn-add-item" id="btn-alm-add-leveled" type="button">+ Agregar Item con Nivel</button>
+
+                <div class="section-divider" aria-hidden="true">· · ·</div>
+
+                <!-- ── Sección 2: DBS y especiales ────────────────── -->
+                <div class="section-header">
+                    <span class="ornament" aria-hidden="true">✦</span>
+                    <h2>DBS &amp; Items Especiales</h2>
+                </div>
+
+                <div class="alm-table-wrapper">
+                    <div class="alm-cols-special" aria-hidden="true">
+                        <span>NOMBRE</span>
+                        <span>CANTIDAD</span>
+                        <span>PRECIO/U</span>
+                        <span>SUBTOTAL</span>
+                        <span></span>
+                    </div>
+                    <div id="alm-special-list" role="list"></div>
+                </div>
+
+                <button class="btn-add-item" id="btn-alm-add-special" type="button">+ Agregar DBS / Item Especial</button>
+
+                <div class="section-divider" aria-hidden="true">· · ·</div>
+
+                <button class="btn-primary" id="btn-alm-calculate" type="button">⚡ CALCULAR INVENTARIO</button>
+
+                <div id="alm-results" class="alm-results" hidden></div>
+
+            </section>
+
+        </main>
+
+        <footer class="app-footer">
+            <span>☯ &nbsp; Conquista Online Loot Tracker &nbsp; ☯</span>
+        </footer>
+
+    </div><!-- .app-container -->
+</div><!-- .page-wrapper -->
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
