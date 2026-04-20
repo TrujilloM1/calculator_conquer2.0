@@ -21,7 +21,8 @@
       "index.html",
       "app.js",
       "data.js",
-      "styles.css"
+      "styles.css",
+      "assets/**"
     ],
     "win": {
       "icon": "assets/icon.ico",

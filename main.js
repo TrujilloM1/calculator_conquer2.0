@@ -12,6 +12,7 @@ function createWindow() {
         minWidth:  780,
         minHeight: 600,
         title: 'Conquista Online — Loot & Craft Tracker',
+        icon: path.join(__dirname, 'assets', 'icon.ico'),
         webPreferences: {
             preload:          path.join(__dirname, 'preload.js'),
             contextIsolation: true,
